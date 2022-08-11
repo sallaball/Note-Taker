@@ -15,6 +15,7 @@ const writeFiles = util.promisify(fs.writeFile);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 // attach css to html
 app.use(express.static('public'));
 
@@ -26,6 +27,11 @@ app.get('/api/notes', (req, res) => {
     res.json(notes);
 })
 });
+
+app.get('/api/notes/:id', (req, res) => {
+    const id = req.params.id;
+    res.json(id);
+})
 
 
 // Post request
