@@ -22,14 +22,40 @@ app.use(express.static('public'));
 // GET request
 app.get('/api/notes', (req, res) => {
     readFiles("./db/db.json", "utf8").then(function(data) {
-        notes = [].concat(JSON.parse(data))
+    const notes = [].concat(JSON.parse(data))
     res.json(notes);
 })
 });
 
-app.post('/api/notes', (req, res) => {});
+
+// Post request
+app.post('/api/notes', (req, res) => {
+    const note = req.body;
+    readFiles("./db/db.json", "utf8").then(function(data) {
+        const notes = [].concat(JSON.parse(data));
+        note.id = notes.lenght + 1
+        notes.push(note);
+        return notes
+    }) .then(function(notes) {
+        writeFiles("./db/db.json", JSON.stringify(notes))
+        res.json(notes);
+    })
+    });
+
+    //HTML Routes
+    app.get("/notes", (req, res) => {
+        res.sendFile(path.join(__dirname, "./public/notes.html"));
+});
+
+    app.get("/", (req, res) => {
+        res.sendFile(path.join(__dirname, "./public/index.html"));
+    });
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "./public/index.html"));
+    });
 
 app.listen(PORT, () => {
     console.log(`API is now on port ${PORT}!`);
-})
+});
 
