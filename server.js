@@ -5,6 +5,7 @@ const util = require("util");
 const PORT = process.env.PORT || 3002;
 const app = express();
 
+
 const { notes } = require('./db/db.json');
 
 const readFiles = util.promisify(fs.readFile);
@@ -46,6 +47,12 @@ app.post('/api/notes', (req, res) => {
         writeFiles("./db/db.json", JSON.stringify(notes))
         res.json(notes);
     })
+    });
+
+    // Delete still under work
+    app.delete("./notes/:id", (req, res) => {
+    deleteNote(notes, req.params.id);
+    res.json(notes);
     });
 
     //HTML Routes
