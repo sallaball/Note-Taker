@@ -39,7 +39,7 @@ app.post('/api/notes', (req, res) => {
     const note = req.body;
     readFiles("./db/db.json", "utf8").then(function(data) {
         const notes = [].concat(JSON.parse(data));
-        note.id = notes.lenght + 1
+        note.id = Math.floor(Math.random() *100000000)
         notes.push(note);
         return notes
     }) .then(function(notes) {
